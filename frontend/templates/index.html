@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Podcast Summarizer</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>YouTube Summarizer</h1>
+            <p class="subtitle">AI-powered summaries and intelligent chat.</p>
+        </header>
+
+        <main>
+            <!-- URL Input Section -->
+            <section id="url-section" class="card">
+                <h2>Enter YouTube URL</h2>
+                <div class="input-group">
+                    <input
+                        type="text"
+                        id="youtube-url"
+                        placeholder="https://www.youtube.com/watch?v=..."
+                        autocomplete="off"
+                    >
+                    <button id="summarize-btn" onclick="summarizeVideo()">
+                        Summarize
+                    </button>
+                </div>
+                <div id="loading" class="loading hidden">
+                    <div class="spinner"></div>
+                    <p>Analyzing video transcript...</p>
+                </div>
+                <div id="error" class="error hidden"></div>
+            </section>
+
+            <!-- Summary Section -->
+            <section id="summary-section" class="card hidden">
+                <h2>Summary</h2>
+                <div id="summary-content" class="summary-content"></div>
+                <div class="metadata" id="video-metadata"></div>
+            </section>
+
+            <!-- Chat Section -->
+            <section id="chat-section" class="card hidden">
+                <h2>Ask Questions</h2>
+                <div id="chat-messages" class="chat-messages"></div>
+                <div class="input-group">
+                    <input
+                        type="text"
+                        id="chat-input"
+                        placeholder="Ask a question about the video..."
+                        autocomplete="off"
+                    >
+                    <button id="send-btn" onclick="sendMessage()">
+                        Send
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+        </footer>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
