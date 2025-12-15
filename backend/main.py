@@ -22,12 +22,13 @@ app.mount("/static", StaticFiles(directory="../frontend/static"), name="static")
 templates = Jinja2Templates(directory="../frontend/templates")
 
 # Initialize services
-openai_api_key = os.getenv("OPENAI_API_KEY")
-if not openai_api_key:
-    raise ValueError("OPENAI_API_KEY environment variable is required")
+# Use DATAWIZZ_API_KEY for the datawizz gateway, fallback to OPENAI_API_KEY for backward compatibility
+api_key = os.getenv("DATAWIZZ_API_KEY") or os.getenv("OPENAI_API_KEY")
+if not api_key:
+    raise ValueError("DATAWIZZ_API_KEY or OPENAI_API_KEY environment variable is required")
 
 youtube_service = YouTubeService()
-claude_service = ClaudeService(openai_api_key)
+claude_service = ClaudeService(api_key)
 
 # In-memory storage for sessions (in production, use a proper database)
 sessions: Dict[str, Dict] = {}
