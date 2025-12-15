@@ -49,6 +49,9 @@ Transcript:
             extra_body={
                 "metadata": {
                     "task": "summary",
+                    "prompt_version": "v1.0",
+                    "prompt_type": "youtube_summary",
+                    "domain": "video_content",
                     "video_id": video_metadata.get('video_id'),
                     "duration_seconds": video_metadata.get('duration_seconds'),
                     "segment_count": video_metadata.get('segment_count')
@@ -97,6 +100,9 @@ Answer questions accurately based on the content. If something isn't covered in 
             extra_body={
                 "metadata": {
                     "task": "chat",
+                    "prompt_version": "v1.0",
+                    "prompt_type": "youtube_qa",
+                    "domain": "video_content",
                     "video_id": video_id,
                     "message_count": len(conversation_history) + 1
                 }
