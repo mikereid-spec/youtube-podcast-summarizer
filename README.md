@@ -41,10 +41,23 @@ pip install -r requirements.txt
 cp .env.example .env
 ```
 
-Then edit `.env` and add your Anthropic API key:
+Then edit `.env` and add your Datawizz API key:
 ```
-ANTHROPIC_API_KEY=your_actual_api_key_here
+DATAWIZZ_API_KEY=your_datawizz_api_key_here
 ```
+
+**Optional: For cloud hosting (Railway, AWS, etc.)**
+
+YouTube blocks requests from cloud provider IPs. To fix this, you need rotating residential proxies:
+
+1. Sign up at [Webshare](https://www.webshare.io/) and purchase a "Residential" proxy package (~$10-30/month)
+2. Add your credentials to `.env`:
+```
+WEBSHARE_PROXY_USERNAME=your_webshare_username
+WEBSHARE_PROXY_PASSWORD=your_webshare_password
+```
+
+**Note:** Without proxies, the app will work locally but not when hosted on cloud platforms.
 
 ## Usage
 

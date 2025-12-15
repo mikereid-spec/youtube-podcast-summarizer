@@ -1,11 +1,18 @@
 """Service for extracting YouTube video transcripts."""
 import re
+import os
 from typing import Optional
 from youtube_transcript_api import YouTubeTranscriptApi, NoTranscriptFound, TranscriptsDisabled
 
 
 class YouTubeService:
     """Handles YouTube video transcript extraction."""
+
+    def __init__(self):
+        """Initialize YouTube service with optional proxy configuration."""
+        # Optional Webshare proxy credentials for bypassing cloud IP blocks
+        self.proxy_username = os.getenv("WEBSHARE_PROXY_USERNAME")
+        self.proxy_password = os.getenv("WEBSHARE_PROXY_PASSWORD")
 
     @staticmethod
     def extract_video_id(url: str) -> Optional[str]:
@@ -22,8 +29,7 @@ class YouTubeService:
                 return match.group(1)
         return None
 
-    @staticmethod
-    def get_transcript(video_id: str) -> dict:
+    def get_transcript(self, video_id: str) -> dict:
         """
         Fetch transcript for a YouTube video.
 
@@ -34,12 +40,20 @@ class YouTubeService:
             dict with 'text' and 'metadata'
         """
         try:
-            # Use the API - instantiate and fetch
-            api = YouTubeTranscriptApi()
-            transcript = api.fetch(video_id)
+            # Use Webshare proxy if credentials are provided (for cloud hosting)
+            proxies = None
+            if self.proxy_username and self.proxy_password:
+                from youtube_transcript_api._settings import WebshareProxyConfig
+                proxies = WebshareProxyConfig(
+                    proxy_username=self.proxy_username,
+                    proxy_password=self.proxy_password
+                )
 
-            # Convert to raw data (list of dicts)
-            transcript_list = transcript.to_raw_data()
+            kwargs = {}
+            if proxies:
+                kwargs['proxies'] = proxies
+
+            transcript_list = YouTubeTranscriptApi.get_transcript(video_id, **kwargs)
 
             # Combine all transcript segments into full text
             full_text = " ".join([entry['text'] for entry in transcript_list])
